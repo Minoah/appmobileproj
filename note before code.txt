@@ -1,0 +1,45 @@
+**CHỈ ÁP DỤNG KHI SỬ DỤNG MYSQL  
+-Tạo các bảng trong CSDL
+-Tạo project asp.net core web api 5.0
+-Vào nuget console sử dụng lệnh sau:
+
+Install-Package Microsoft.VisualStudio.Web.CodeGeneration.Design 
+Install-Package Microsoft.EntityFrameworkCore.Tools 
+Install-Package MySql.EntityFrameworkCore -Version 5.0.0+m8.0.23
+Install-Package Swashbuckle.AspNetCore 
+Install-Package Microsoft.EntityFrameworkCore.SqlServer
+Install-Package Z.EntityFramework.Extensions.EFCore
+ 
+**Sinh Entity từ Db
+
+Scaffold-DbContext "connection-string" MySql.EntityFrameworkCore -OutputDir Models
+ 
+VD:
+PM> Scaffold-DbContext "server=127.0.0.1;user id=root;port=3306;database=inventory;" MySql.EntityFrameworkCore -OutputDir Models 
+
+-Vào appsetting.json thêm dòng sau
+
+  "ConnectionStrings": {
+    "InventoryDatabase": "server=127.0.0.1;user id=root;port=3306;database=inventory;"
+  },
+Có thể đổi tên InventoryDatabase bằng tên khác
+
+-Vào file Startup có dòng như sau:
+
+public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddControllers();
+        }
+
+**Ta thay dòng trên bằng dòng:
+
+public void ConfigureServices(IServiceCollection services)
+        {
+            var connection = Configuration.GetConnectionString("InventoryDatabase");
+            services.AddDbContextPool<DataContext>(options => options.UseMySQL(connection)); 
+            services.AddControllers();
+        }
+
+Thêm vào đoạn đầu file starup:
+
+using Microsoft.EntityFrameworkCore;
