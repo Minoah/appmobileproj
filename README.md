@@ -23,13 +23,13 @@ Khi đã tạo được các entity ở folder Models, thì trong folder này c�
 ***
 -Vào file appsetting.json thêm dòng sau  
 
-  "ConnectionStrings": {  
-    "InventoryDatabase": "server=127.0.0.1;user id=root;port=3306;database=inventory;"  
-  }  
+  >"ConnectionStrings": {  
+  > "InventoryDatabase": "server=127.0.0.1;user id=root;port=3306;database=inventory;"  
+  >}  
 
 -Vào file Startup.cs có hàm ConfigureServices(IServiceCollection services)  
 Trong hàm này thêm đoạn code dưới đây vào sau phần services.AddControllers():  
 
-var connection = Configuration.GetConnectionString("InventoryDatabase");  
-services.AddDbContextPool<DataContext>(options => options.UseMySQL(connection));   
+>var connection = Configuration.GetConnectionString("InventoryDatabase");  
+>services.AddDbContextPool<DataContext>(options => options.UseMySQL(connection));   
 
